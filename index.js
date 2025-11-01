@@ -114,13 +114,14 @@ app.get("/forms/:dataId", async(req, res) => {
 // api to post form data;
 
 // const newData = {
-//     name: "Demo5",
+//     name: "Demo6",
 //     city: "Noida",
 //     contactNumber: "56787345678",
 //     occupation: "Worker",
 //     qualification: "Graduation",
 //     purpose: " Improve speaking skills",
 //     duration:"Five month"
+// }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 async function postForm(newData){
     try{
@@ -132,19 +133,21 @@ async function postForm(newData){
         throw error;
     }
 };
-// postForm();
+// postForm(newData);
 
 app.post("/forms", async(req, res) => {
     try{
         const newData = req.body;
-        const dataa = await postForm();
-        console.log(dataa)
-            res.status(201).json({message: "Data added successfully.", data: dataa})
-    } 
-    catch(error){
-        res.status(500).json({error: 'Failed to add Data.'});
+        const addDataa = await postForm(newData);
+        console.log(addDataa);
+        res.status(201).json({message: "Data added successfully", data: newData})
+
+    } catch(error){
+        res.status(500).json({error: "Failed to add Data."})
+
     }
 })
+
 
 
                                                                                       
