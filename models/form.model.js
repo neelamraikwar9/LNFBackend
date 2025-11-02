@@ -6,6 +6,11 @@ const formSchema = new mongoose.Schema({
         required: [true, "Name is required"]
     }, 
 
+    email: {
+        type: String,
+        required: [true, "email is required"]
+    },
+
     city: {
         type: String,
         required: [true, "City is required"]
