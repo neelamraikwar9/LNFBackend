@@ -1,8 +1,13 @@
 const { initializeDB } = require("./db.connect");
 const Form = require("./models/form.model");
+const Usser = require("./models/usser.model");
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+
+
 
 app.use(cors());
 
@@ -14,6 +19,78 @@ const corsOptions = {
 };
 
 initializeDB();
+
+
+// api to signup the app;
+const SECRET  = "MONGODB";
+
+app.post("/api/signup", async(req, res) => {
+    try{
+        const { name, email, password } = req.body; 
+
+        //hash password; 
+        const hashed = await bcrypt.hash(password, 10);
+        //bcrypt :- A popular library specifically designed to hash passwords securely.
+
+        //.hash() :- The function that actually performs the hashing.
+
+        //10 :- The cost factor (also called "rounds" or "salt rounds"). It controls how much work is required to compute the hash.
+
+        const user = new Usser({ name, email, password: hashed });
+        await user.save();
+        res.status(201).json({ message: "User created successfully" });
+    } catch(error){
+        res.status(400).json({ error: "User creation failed" });
+    }
+});
+
+
+// middleware for json web token;
+const verifyJWT = (req, res, next) => {
+    const token = req.headers["authorization"];
+
+    if(!token){
+    return response.status(401).json({ message: "No token provided" });
+    }
+
+
+    try {
+        const decodeToken = jwt.verify(token, SECRET);
+        req.user = decodeToken;
+        next();
+    } catch (error) {
+    res.status(402).json({ message: "Invalid token." });
+    }
+};
+
+app.post("/api/login", async (req, res) => {
+    const { email, password } = req.body; 
+
+    const user = await Usser.findOne({ email });
+
+    if(!user){
+    res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const isMatch = bcrypt.compare(password, user.password);
+    
+    if(!isMatch) {
+    res.status(401).json({ error: "Invalid credentials" });
+    }
+
+
+    //Create JWT
+    const token = jwt.sign({ userId: user._id, email: user.email }, SECRET, {expiresIn: '6h'});
+    res.json({ token });
+});
+
+
+// Protected Route Example
+app.get("/api/private", verifyJWT, (req, res) => {
+  res.json({ message: `Welcome to the private route ${Usser}!`, user: req.user });
+});
+
+
 
 
 // const formData = {
@@ -157,3 +234,7 @@ app.listen(PORT, () => {
     console.log(`Server is running on the port ${PORT}`)
 })
                                                                                                                                                                                                                                                                                                                                               
+
+
+
+// open-router-key = "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"
