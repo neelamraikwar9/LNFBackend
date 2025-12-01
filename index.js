@@ -1,6 +1,7 @@
 const { initializeDB } = require("./db.connect");
 const Form = require("./models/form.model");
 const Usser = require("./models/usser.model");
+const Testimonial = require("./models/testimonial.model");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -87,7 +88,7 @@ app.post("/api/login", async (req, res) => {
 
 // Protected Route Example
 app.get("/api/private", verifyJWT, (req, res) => {
-  res.json({ message: `Welcome to the private route ${Usser}!`, user: req.user });
+  res.json({ message: "Welcome to the private route", user: req.user });
 });
 
 
@@ -225,7 +226,76 @@ app.post("/forms", async(req, res) => {
 })
 
 
+// const testimonialOne = {
+//     name: "Joshi",
+//     testimonial: "I loved being part of this community. It's amazing to learn from some of prestigious and inspiring people. Every session feels like a new growth opportunity."
+// }
 
+// const testimonialOne = {
+//     name: "Anupam",
+//     testimonial: "I truly enjoy spending time here. The activities are fun, engaging, and I learn something useful every single day."
+// }
+
+// const testimonialOne = {
+//     name: "Akanksha",
+//     testimonial: "Joining this community has boosted my confidence and speaking skills. I feel more comfortable expressing myself now, both in class and in real life."
+// }
+
+// const testimonialOne = {
+//     name: "Shaktima",
+//     testimonial: "This group is a perfect blend of learning and enjoyment. The supportive environment keeps me motivated to improve my English consistently."
+// }
+
+// const testimonialOne = {
+//     name: "Ashu Dubey",
+//     testimonial: "I have seen a lot of improvement in my vocabulary, fluency, and thinking ability. The discussions here really help me open my mind."
+// }
+
+
+
+
+// const testimonialsAdd = async () =>  {
+//     try{
+//         const newTestimonial = new Testimonial(testimonialOne);
+
+//         const saveNewTestimonial = await newTestimonial.save();
+
+//         console.log(saveNewTestimonial, "Testimonial added successfully.");
+//     } catch(error){
+//         throw error; 
+//     }
+// }
+// testimonialsAdd();
+
+
+// query to get all the testimonials;
+
+async function getAllTestimonials(){
+    try{
+        const allTestimonials = await Testimonial.find();
+        console.log(allTestimonials, "getting all testimonials.");
+        return allTestimonials; 
+    } catch(error){
+        throw error; 
+    }
+}
+// getAllTestimonials();
+
+
+// api to get all testimonias;
+
+app.get('/testimonials', async (req, res) => {
+    try{
+    const allTestimonials = await getAllTestimonials();
+    if(allTestimonials){
+        res.json(allTestimonials)
+    } else{
+        res.status(404).json({error: "Testimonials not found."})
+    }
+} catch(error){
+    res.status(500).json({error: "Failed to fetch Testimonials."})
+}
+})
                                                                                       
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
