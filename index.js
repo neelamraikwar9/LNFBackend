@@ -234,7 +234,3 @@ app.listen(PORT, () => {
     console.log(`Server is running on the port ${PORT}`)
 })
                                                                                                                                                                                                                                                                                                                                               
-
-
-
-// open-router-key = "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"
