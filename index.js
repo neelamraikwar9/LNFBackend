@@ -2,6 +2,7 @@ const { initializeDB } = require("./db.connect");
 const Form = require("./models/form.model");
 const Usser = require("./models/usser.model");
 const Testimonial = require("./models/testimonial.model");
+const Activities = require("./models/activities.model");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -296,6 +297,55 @@ app.get('/testimonials', async (req, res) => {
     res.status(500).json({error: "Failed to fetch Testimonials."})
 }
 })
+
+
+const newActivity = {
+    weekDay: "Monday",
+    activityName: "Deep Talk",
+    activityDescription: "In this activity, there will be 4-5 questions related to a chosen topic. You need to share your thoughts and understanding based on the given questions."
+}
+
+// const newActivity = {
+//     weekDay: "Tuesday",
+//     activityName: "Discussion",
+//     activityDescription: "In this activity, a topic will be given for discussion with your peers during the session."
+// }
+
+// const newActivity = {
+//     weekDay: "Wednesday",
+//     activityName: "Teaching",
+//     activityDescription: "In this activity, you will choose a topic and teach it to the class. Your primary goal should be to improve English-speaking skills."
+// }
+
+
+// const newActivity = {
+//     weekDay: "Thursday",
+//     activityName: "Debate",
+//     activityDescription: "In this activity, a topic will be presented, typically with two opposing viewpoints. You must choose one side and present your arguments in its favor."
+// }
+// const newActivity = {
+//     weekDay: "Friday",
+//     activityName: "Role Play",
+//     activityDescription: "In this activity, three scenarios will be provided. You will choose one, be paired with another participant, and engage in a verbal role-play based on the topic."
+// }
+// const newActivity = {
+//     weekDay: "Saturday",
+//     activityName: "Picture Perception",
+//     activityDescription: "In this activity, three pictures will be shown to you. You must choose one and share your observations about it."
+// }
+
+
+// method to add Activities
+async function addActivities(newActivity){
+    try {
+        const newActivity = new Activities; 
+        const saveNewAct = await newActivity();
+        console.log(saveNewAct, "Activity saved successfully.")
+    } catch (error) {
+        console.log(error);
+    }
+}
+addActivities(newActivity);
                                                                                       
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
