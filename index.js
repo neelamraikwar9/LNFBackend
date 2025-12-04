@@ -299,11 +299,11 @@ app.get('/testimonials', async (req, res) => {
 })
 
 
-const newActivity = {
-    weekDay: "Monday",
-    activityName: "Deep Talk",
-    activityDescription: "In this activity, there will be 4-5 questions related to a chosen topic. You need to share your thoughts and understanding based on the given questions."
-}
+// const newActivity = {
+//     weekDay: "Monday",
+//     activityName: "Deep Talk",
+//     activityDescription: "In this activity, there will be 4-5 questions related to a chosen topic. You need to share your thoughts and understanding based on the given questions."
+// }
 
 // const newActivity = {
 //     weekDay: "Tuesday",
@@ -323,11 +323,14 @@ const newActivity = {
 //     activityName: "Debate",
 //     activityDescription: "In this activity, a topic will be presented, typically with two opposing viewpoints. You must choose one side and present your arguments in its favor."
 // }
+
+
 // const newActivity = {
 //     weekDay: "Friday",
 //     activityName: "Role Play",
 //     activityDescription: "In this activity, three scenarios will be provided. You will choose one, be paired with another participant, and engage in a verbal role-play based on the topic."
 // }
+
 // const newActivity = {
 //     weekDay: "Saturday",
 //     activityName: "Picture Perception",
@@ -336,16 +339,45 @@ const newActivity = {
 
 
 // method to add Activities
-async function addActivities(newActivity){
-    try {
-        const newActivity = new Activities; 
-        const saveNewAct = await newActivity();
-        console.log(saveNewAct, "Activity saved successfully.")
-    } catch (error) {
-        console.log(error);
+// async function addActivities(newActivity){
+//     try {
+//         const newActivities = new Activities(newActivity); 
+//         const saveNewAct = await newActivities.save();
+//         console.log(saveNewAct, "Activity saved successfully.")
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+// addActivities(newActivity);
+
+
+//api to get all the activities;
+
+async function getAllActivities(){
+    try{
+        const allActivities = await Activities.find();
+        console.log(allActivities, "All activities");
+        return allActivities;
+    } catch(error){
+        throw error; 
     }
 }
-addActivities(newActivity);
+
+// getAllActivities();
+
+app.get("/activities", async (req, res) => {
+    try{
+    const allActivities = await  getAllActivities();
+    console.log(allActivities, "getting all activ.")
+    if(allActivities){
+        res.json(allActivities);
+    } else{
+        res.status(404).json({error: "Activities not found."})
+    }
+    } catch(error){
+        res.status(500).json({error: "Failed to fetch Activities."})
+    }
+})
                                                                                       
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
