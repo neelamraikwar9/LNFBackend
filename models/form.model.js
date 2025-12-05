@@ -8,7 +8,8 @@ const formSchema = new mongoose.Schema({
 
     email: {
         type: String,
-        required: [true, "email is required"]
+        required: [true, "email is required"], 
+        unique: true
     },
 
     city: {
@@ -18,7 +19,8 @@ const formSchema = new mongoose.Schema({
 
     contactNumber: {
         type: String,
-        required: [true, "Contact number is required"]
+        required: [true, "Contact number is required"],
+        unique: true
     },
 
 
